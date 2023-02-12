@@ -49,8 +49,8 @@ body {
     flex: 1.5;
 }
 
-#backspace {
-    grid-column: 2 / 4;
+#clear {
+    grid-column: 1 / 4;
     grid-row: 1;
 }
 

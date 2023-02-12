@@ -61,14 +61,16 @@ const displayValue = document.querySelector('#display');
 const buttons = document.querySelectorAll('.btn-display');
 const btnPoint = document.querySelector('#point');
 
-let num1 = '', num2 = '', operator, number = '';
-let operation, result, point;
+let num1 = '', num2 = '', operator = '', number = '';
+let operation = '', result, point;
 let secondNum = 1; // Check if the user wrote an operator (0: already wrote an operator)
 
 buttons.forEach(button => {
     button.addEventListener('click', e => {
 
         let input = e.target.textContent;
+
+        operation += input;
 
         number += input; // `number` take the operands
 
@@ -77,6 +79,7 @@ buttons.forEach(button => {
         let isNumber = !isNaN(input); // Check if the input is a number
 
         if (isNumber && secondNum === 1) {
+
             num1 = number;
 
         } else if(!isNumber) {
@@ -90,7 +93,7 @@ buttons.forEach(button => {
 
             // if the user already wrote an operator, do this
             if (secondNum === 0) {
-                if (!num2) num2 = num1;
+                if(!num2) num2 = num1;
                 
                 displayValue.textContent = showResult(operator, +num1, +num2) + number[number.length - 1];
                 num1 = showResult(operator, +num1, +num2);
@@ -111,6 +114,8 @@ const equal = document.querySelector('#equal');
 equal.addEventListener('click', e => {
     if (num1 && num2) {
         displayValue.textContent = showResult(operator, +num1, +num2);
+        number = showResult(operator, +num1, +num2);
+        secondNum = 1;
     }
 });
 
@@ -120,9 +125,30 @@ clear.addEventListener('click', e => {
     num1 = '';
     num2 = '';
     operator = '';
+    operation = '';
     input = '';
     number = '';
     secondNum = 1;
     btnPoint.disabled = false;
     displayValue.textContent = '';
+});
+
+const backspace = document.querySelector('#backspace');
+
+backspace.addEventListener('click', e => {
+    number = number.toString().slice(0, -1);
+    if(!number) {
+        number = num1;
+        num2 = '';
+        secondNum = 1;
+        operator = '';
+    }
+    if(secondNum) {
+        num1 = number;
+    } else if(secondNum === 0) {
+        num2 = number;
+    }
+    
+    displayValue.textContent = `${num1}${operator}${num2}`;
+
 });

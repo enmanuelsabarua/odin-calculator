@@ -25,13 +25,13 @@ function operate(operator, num1, num2) {
 function showResult(operator, num1, num2) {
     switch (operator) {
         case '+':
-            return operate(add, num1, num2)
+            return operate(add, num1, num2);
         case '-':
-            return operate(subtract, num1, num2)
+            return operate(subtract, num1, num2);
         case '*':
-            return operate(multiply, num1, num2)
+            return operate(multiply, num1, num2);
         case '/':
-            return operate(divide, num1, num2)
+            return operate(divide, num1, num2);
     
         default:
             break;
@@ -86,12 +86,14 @@ equal.addEventListener('click', e => {
     displayValue.textContent = showResult(operator, +num1, +num2);
 });
 
-// const clear = document.querySelector('#clear');
+const clear = document.querySelector('#clear');
 
-// clear.addEventListener('click', e => {
-//     num1 = 0;
-//     num2 = 0;
-//     operator = '';
-//     secondNum = 0;
-//     displayValue.textContent = '';
-// });
+clear.addEventListener('click', e => {
+    num1 = '';
+    num2 = '';
+    operator = '';
+    input = '';
+    number = '';
+    secondNum = 1;
+    displayValue.textContent = '';
+});

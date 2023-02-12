@@ -148,7 +148,90 @@ backspace.addEventListener('click', e => {
     } else if(secondNum === 0) {
         num2 = number;
     }
-    
+
     displayValue.textContent = `${num1}${operator}${num2}`;
+
+});
+
+// Key functions
+document.addEventListener('keydown', e => {
+    let input = e.key;
+
+    if (!isNaN(input) || input == '/' || input == '*' || input == '+' || input == '-' || input == '.') {
+        
+        operation += input;
+    
+        number += input; // `number` take the operands
+    
+        displayValue.textContent += input;
+    
+        let isNumber = !isNaN(input); // Check if the input is a number
+    
+        if (isNumber && secondNum === 1) {
+    
+            num1 = number;
+    
+        } else if(!isNumber) {
+            // Check if the user wrote a point
+            if(input == '.') {
+                btnPoint.disabled = true;
+                return;
+            } else {
+                btnPoint.disabled = false;
+            }
+    
+            // if the user already wrote an operator, do this
+            if (secondNum === 0) {
+                if(!num2) num2 = num1;
+                
+                displayValue.textContent = showResult(operator, +num1, +num2) + number[number.length - 1];
+                num1 = showResult(operator, +num1, +num2);
+            }
+            
+            secondNum = 0;
+            operator = number[number.length - 1]; // Take the operator
+            number = ''; // Take the second operand
+    
+        } else if(isNumber && secondNum === 0) {
+            num2 = number;
+        }
+
+    } else if(e.key === 'Enter') {
+
+        if (num1 && num2) {
+            displayValue.textContent = showResult(operator, +num1, +num2);
+            number = showResult(operator, +num1, +num2);
+            secondNum = 1;
+        }
+
+    } else if(e.key === 'Backspace') {
+        
+        number = number.toString().slice(0, -1);
+        if(!number) {
+            number = num1;
+            num2 = '';
+            secondNum = 1;
+            operator = '';
+        }
+        if(secondNum) {
+            num1 = number;
+        } else if(secondNum === 0) {
+            num2 = number;
+        }
+
+        displayValue.textContent = `${num1}${operator}${num2}`;
+
+    } else if (e.key === 'Escape') {
+
+        num1 = '';
+        num2 = '';
+        operator = '';
+        operation = '';
+        input = '';
+        number = '';
+        secondNum = 1;
+        btnPoint.disabled = false;
+        displayValue.textContent = '';
+    }
 
 });
